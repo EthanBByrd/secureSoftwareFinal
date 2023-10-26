@@ -3,97 +3,94 @@
 //Cameron Cummings, Ethan Byrd, Matthew Fincher
 
 import java.util.*;
-import java.lang.*;
+import java.nio.file.*;
+import java.io.*;
 
 public class ContinuousMonitor {
-    public static void main(String[] args) {
-        //while loop to continuously update/monitor the software
-        while(true) {
+
+    private static final String LOG_FILE = "log.txt";
+
+    public static void main(String[] args) throws InterruptedException {
+        while (true) {
             update();
+            Thread.sleep(5000); // 5-second delay between each check.
         }
     }    
 
     public static void update() {
-        boolean foundWarning = false;
-        
+        System.out.println("Checking for threats...");
 
+        try {
+            List<String> logs = Files.readAllLines(Paths.get(LOG_FILE));
 
-        if(foundWarning) {
-            System.out.println("Suspicious activity detected, cancelling request.");
+            if (checkBuffer(logs) == 0) {
+                System.out.println("Buffer attack detected!");
+            }
 
+            if (checkLibc(logs) == 0) {
+                System.out.println("Libc attack detected!");
+            }
+
+            if (checkStringFormat(logs) == 0) {
+                System.out.println("String format attack detected!");
+            }
+
+            if (checkHeap(logs) == 0) {
+                System.out.println("Heap attack detected!");
+            }
+
+            if (checkShellshock(logs) == 0) {
+                System.out.println("Shellshock attack detected!");
+            }
+
+            if (checkRaceCondition(logs) == 0) {
+                System.out.println("Race condition vulnerability detected!");
+            }
+
+            if (checkWebAttack(logs) == 0) {
+                System.out.println("Web attack detected!");
+            }
+
+            if (checkSQL(logs) == 0) {
+                System.out.println("SQL injection detected!");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading log file: " + e.getMessage());
         }
-
     }
 
-    //checks for basic buffer attacks
-    public static boolean checkBuffer() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
+    // Using the logs, we perform checks based on "fake" patterns. 
 
-        return alert;
+    public static int checkBuffer(List<String> logs) {
+        return logs.contains("BUFFER_ATTACK_PATTERN") ? 0 : 1;
     }
 
-    //checks for basic libc attacks
-    public static boolean checkLibc() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
-
-        return alert;
+    public static int checkLibc(List<String> logs) {
+        return logs.contains("LIBC_ATTACK_PATTERN") ? 0 : 1;
     }
 
-    //check for string format attacks
-    public static boolean checkStringFormat() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
-
-        return alert;
+    public static int checkStringFormat(List<String> logs) {
+        return logs.contains("STRING_FORMAT_ATTACK_PATTERN") ? 0 : 1;
     }
 
-    //check for heap attacks 
-    public static boolean checkHeap() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
-
-        return alert;
+    public static int checkHeap(List<String> logs) {
+        return logs.contains("HEAP_ATTACK_PATTERN") ? 0 : 1;
     }
 
-    //check for shellshock attacks
-    public static boolean checkShellshock() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
-
-        return alert;
+    public static int checkShellshock(List<String> logs) {
+        return logs.contains("SHELLSHOCK_ATTACK_PATTERN") ? 0 : 1;
     }
 
-    //check for race condition vulnerabilities
-    public static boolean checkRaceCondition() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
-
-        return alert;
+    public static int checkRaceCondition(List<String> logs) {
+        return logs.contains("RACE_CONDITION_PATTERN") ? 0 : 1;
     }
 
-    //check for basic web attacks
-    public static boolean checkWebAttack() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
-
-        return alert;
+    public static int checkWebAttack(List<String> logs) {
+        return logs.contains("WEB_ATTACK_PATTERN") ? 0 : 1;
     }
 
-    //check for SQL injection attacks
-    public static boolean checkSQL() {
-        boolean alert = false;
-        
-        //check for attack/vulnerabilities here
-
-        return alert;
+    public static int checkSQL(List<String> logs) {
+        return logs.contains("SQL_INJECTION_PATTERN") ? 0 : 1;
     }
 }
