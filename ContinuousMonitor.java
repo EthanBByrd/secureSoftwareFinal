@@ -8,55 +8,92 @@ import java.lang.*;
 public class ContinuousMonitor {
     public static void main(String[] args) {
         //while loop to continuously update/monitor the software
-        
         while(true) {
             update();
         }
     }    
 
     public static void update() {
+        boolean foundWarning = false;
+        
+
+
+        if(foundWarning) {
+            System.out.println("Suspicious activity detected, cancelling request.");
+
+        }
 
     }
 
-    //THE FOLLOWING CODES SHOULD RETURN 1 IF CLEAR, 0 IF NOT
-
     //checks for basic buffer attacks
-    public static int checkBuffer() {
+    public static boolean checkBuffer() {
+        boolean alert = false;
+        
+        //check for attack/vulnerabilities here
 
+        return alert;
     }
 
     //checks for basic libc attacks
-    public static int checkLibc() {
+    public static boolean checkLibc() {
+        boolean alert = false;
         
+        //check for attack/vulnerabilities here
+
+        return alert;
     }
 
     //check for string format attacks
-    public static int checkStringFormat() {
+    public static boolean checkStringFormat() {
+        boolean alert = false;
         
+        //check for attack/vulnerabilities here
+
+        return alert;
     }
 
     //check for heap attacks 
-    public static int checkHeap() {
+    public static boolean checkHeap() {
+        boolean alert = false;
         
+        //check for attack/vulnerabilities here
+
+        return alert;
     }
 
     //check for shellshock attacks
-    public static int checkShellshock() {
+    public static boolean checkShellshock() {
+        boolean alert = false;
         
+        //check for attack/vulnerabilities here
+
+        return alert;
     }
 
     //check for race condition vulnerabilities
-    public static int checkRaceCondition() {
+    public static boolean checkRaceCondition() {
+        boolean alert = false;
         
+        //check for attack/vulnerabilities here
+
+        return alert;
     }
 
     //check for basic web attacks
-    public static int checkWebAttack() {
+    public static boolean checkWebAttack() {
+        boolean alert = false;
         
+        //check for attack/vulnerabilities here
+
+        return alert;
     }
 
     //check for SQL injection attacks
-    public static int checkSQL() {
+    public static boolean checkSQL() {
+        boolean alert = false;
         
+        //check for attack/vulnerabilities here
+
+        return alert;
     }
 }
