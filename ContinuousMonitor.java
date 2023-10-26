@@ -60,37 +60,75 @@ public class ContinuousMonitor {
         }
     }
 
-    // Using the logs, we perform checks based on "fake" patterns. 
-
     public static int checkBuffer(List<String> logs) {
-        return logs.contains("BUFFER_ATTACK_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("BUFFER_ATTACK_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public static int checkLibc(List<String> logs) {
-        return logs.contains("LIBC_ATTACK_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("LIBC_ATTACK_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public static int checkStringFormat(List<String> logs) {
-        return logs.contains("STRING_FORMAT_ATTACK_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("STRING_FORMAT_ATTACK_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public static int checkHeap(List<String> logs) {
-        return logs.contains("HEAP_ATTACK_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("HEAP_ATTACK_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public static int checkShellshock(List<String> logs) {
-        return logs.contains("SHELLSHOCK_ATTACK_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("SHELLSHOCK_ATTACK_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public static int checkRaceCondition(List<String> logs) {
-        return logs.contains("RACE_CONDITION_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("RACE_CONDITION_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public static int checkWebAttack(List<String> logs) {
-        return logs.contains("WEB_ATTACK_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("WEB_ATTACK_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 
     public static int checkSQL(List<String> logs) {
-        return logs.contains("SQL_INJECTION_PATTERN") ? 0 : 1;
+        for(String log : logs) {
+            if(log.contains("SQL_INJECTION_PATTERN")) {
+                return 0;
+            }
+        }
+        return 1;
     }
 }
