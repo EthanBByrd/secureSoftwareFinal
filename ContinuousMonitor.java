@@ -14,26 +14,27 @@ public class ContinuousMonitor {
 
     // Entry point for the program
     public static void main(String[] args) throws InterruptedException {
-        Scanner scan = new Scanner(System.in);
-        // Infinite loop to continuously monitor threats; change from true to listening for some input?
-        while (true) {
-            switch (randomInput()) {
-                case 0: //allows the user to simulate putting in a string to a website/application (as if one was typing a username or password)
-                    System.out.println("Please enter text: ");
-                    update(scan.nextLine(), null);
-                    break;
-                case 1: //allows the user to simulate adding a file they would like to input into website/application (via its path)
-                    System.out.println("Enter the name of the file you would like to add: ");
-                    update(null, scan.nextLine());
-                    break;
-                default: //breaks out of current iteration of while loop in case of bug that returns something other than 0 or 1
-                    continue;
-            }
+        try (Scanner scan = new Scanner(System.in)) {
+            // Infinite loop to continuously monitor threats; change from true to listening for some input?
+            while (true) {
+                switch (randomInput()) {
+                    case 0: //allows the user to simulate putting in a string to a website/application (as if one was typing a username or password)
+                        System.out.println("Please enter text: ");
+                        update(scan.nextLine(), null);
+                        break;
+                    case 1: //allows the user to simulate adding a file they would like to input into website/application (via its path)
+                        System.out.println("Enter the name of the file you would like to add: ");
+                        update(null, scan.nextLine());
+                        break;
+                    default: //breaks out of current iteration of while loop in case of bug that returns something other than 0 or 1
+                        continue;
+                }
 
-            // Introduce a delay of 5 seconds between each cycle of threat checks
-            Thread.sleep(5000);
+                // Introduce a delay of 5 seconds between each cycle of threat checks
+                Thread.sleep(5000);
+            }
+            //scan.close();
         }
-        //scan.close();
     }    
 
     // Function to check the log file for various threats
