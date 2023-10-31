@@ -9,8 +9,11 @@ import java.io.*;
 
 public class ContinuousMonitor {
 
-    // Define the path to the log file as a constant string
+    // Define the name of the log file as a constant string
     private static final String LOG_FILE = "log.txt";
+
+    // Define the name of the patterns to look for
+    private static final String patternsFile = "AttackPatterns.txt";
 
     // Entry point for the program
     public static void main(String[] args) throws InterruptedException {
@@ -37,16 +40,17 @@ public class ContinuousMonitor {
         }
     }    
 
-    // Function to check the log file for various threats
+    // Function to check the input for various threats
     public static void update(String inputString, String fileName) {
         try {
             boolean checkFile = false;
             List<String> file = new ArrayList<String>(){};
-            List<String> logs = Files.readAllLines(Paths.get(LOG_FILE));
+            List<String> patterns = Files.readAllLines(Paths.get(patternsFile));
+            
             //chooses to run through try/catch based on input of string vs. file
             if(inputString == null) {
                 checkFile = true;
-                //Read all lines from the specified log file and store them in a list
+                //Read all lines from the specified file and store them in a list
                 file = Files.readAllLines(Paths.get(fileName));
             } else {
                 checkFile = false;
@@ -56,58 +60,17 @@ public class ContinuousMonitor {
             if(checkFile) {
                 // Check for various threat patterns in the file and print messages if detected
                 for (String line : file) {
-                    if (checkBuffer(line, logs) == 1) {
-                    System.out.println("Buffer attack detected!");
-                    }
-                    if (checkLibc(line, logs) == 1) {
-                        System.out.println("Libc attack detected!");
-                    }
-                    if (checkStringFormat(line, logs) == 1) {
-                        System.out.println("String format attack detected!");
-                    }
-                    if (checkHeap(line, logs) == 1) {
-                        System.out.println("Heap attack detected!");
-                    }
-                    if (checkShellshock(line, logs) == 1) {
-                        System.out.println("Shellshock attack detected!");
-                    }
-                    if (checkRaceCondition(line, logs) == 1) {
-                        System.out.println("Race condition vulnerability detected!");
-                    }
-                    if (checkWebAttack(line, logs) == 1) {
-                        System.out.println("Web attack detected!");
-                    }
-                    if (checkSQL(line, logs) == 1) {
-                        System.out.println("SQL injection detected!");
+                    if (checkAttacks(line, patterns) == 1) {
+                    System.out.println("Suspicious activity detected...");
                     }
                 }
                 
             } else {
-                // Check for various threat patterns in the logs and print messages if detected
-                if (checkBuffer(inputString, logs) == 1) {
-                    System.out.println("Buffer attack detected!");
+                // Check for various threat patterns in the patterns file and print messages if detected
+                if (checkAttacks(inputString, patterns) == 1) {
+                    System.out.println("Suspicious activity detected...");
                 }
-                if (checkLibc(inputString, logs) == 1) {
-                    System.out.println("Libc attack detected!");
-                }
-                if (checkStringFormat(inputString, logs) == 1) {
-                    System.out.println("String format attack detected!");
-                }
-                if (checkHeap(inputString, logs) == 1) {
-                    System.out.println("Heap attack detected!");
-                }
-                if (checkShellshock(inputString, logs) == 1) {
-                    System.out.println("Shellshock attack detected!");
-                }
-                if (checkRaceCondition(inputString, logs) == 1) {
-                    System.out.println("Race condition vulnerability detected!");
-                }
-                if (checkWebAttack(inputString, logs) == 1) {
-                    System.out.println("Web attack detected!");
-                }
-                if (checkSQL(inputString, logs) == 1) {
-                    System.out.println("SQL injection detected!");
-                }
+                
             }
         } catch (IOException e) {
             // Handle any exceptions encountered when reading the files
@@ -115,69 +78,71 @@ public class ContinuousMonitor {
         }
     }
 
-    // Check for buffer overflow attack patterns in the logs
-    public static int checkBuffer(String string, List<String> log) {
-        if(log.contains("BUFFER_ATTACK_PATTERN")) {
+    // Check for buffer overflow attack patterns in the patterns file
+    public static int checkAttacks(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
             return 1; // Attack detected
         }
         return 0; // No attack detected
     }
 
-    // Check for libc attack patterns in the logs
-    public static int checkLibc(String string, List<String> log) {
-        if(log.contains("LIBC_ATTACK_PATTERN")) {
+    /*
+    // Check for libc attack patterns in the patterns file
+    public static int checkLibc(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
             return 1;
         }
         return 0;
     }
 
-    // Check for string format attack patterns in the logs
-    public static int checkStringFormat(String string, List<String> log) {
-        if(log.contains("STRING_FORMAT_ATTACK_PATTERN")) {
+    // Check for string format attack patterns in the patterns file
+    public static int checkStringFormat(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
             return 1;
         }
         return 0;
     }
 
-    // Check for heap overflow attack patterns in the logs
-    public static int checkHeap(String string, List<String> log) {
-        if(log.contains("HEAP_ATTACK_PATTERN")) {
+    // Check for heap overflow attack patterns in the patterns file
+    public static int checkHeap(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
             return 1;
         }
         return 0;
     }
 
-    // Check for Shellshock vulnerability patterns in the logs
-    public static int checkShellshock(String string, List<String> log) {
-        if(log.contains("SHELLSHOCK_ATTACK_PATTERN")) {
+    // Check for Shellshock vulnerability patterns in the patterns file
+    public static int checkShellshock(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
             return 1;
         }
         return 0;
     }
 
-    // Check for race condition vulnerability patterns in the logs
-    public static int checkRaceCondition(String string, List<String> log) {
-        if(log.contains("RACE_CONDITION_PATTERN")) {
+    // Check for race condition vulnerability patterns in the patterns file
+    public static int checkRaceCondition(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
             return 1;
         }
         return 0;
     }
 
-    // Check for web-based attack patterns in the logs
-    public static int checkWebAttack(String string, List<String> log) {
-        if(log.contains("WEB_ATTACK_PATTERN")) {
+    // Check for web-based attack patterns in the patterns file
+    public static int checkWebAttack(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
             return 1;
         }
         return 0;
     }
 
-    // Check for SQL injection attack patterns in the logs
-    public static int checkSQL(String string, List<String> log) {
-        if(log.contains("SQL_INJECTION_PATTERN")) {
+    // Check for SQL injection attack patterns in the patterns file
+    public static int checkSQL(String string, List<String> pattern) {
+        if(pattern.contains(string)) {
              return 1;
         }
         return 0;
     }
+    */
 
     //returns a random int between 0-1 to simulate the user inputting something into a website/application
     //returns 0 for string (i.e. user and pass)
