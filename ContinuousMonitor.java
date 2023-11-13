@@ -8,12 +8,7 @@ import java.nio.file.*;
 import java.io.*;
 
 public class ContinuousMonitor {
-
-    // Define the name of the log file as a constant string
-    private static final String LOG_FILE = "log.txt";
-
     // Define the name of the patterns to look for, for each type of attack, including a suspicious activity file for each
-    private static final String patternsFile = "AttackPatterns.txt";
     private static final String bufferAlerts = "BufferAlerts.txt";
     private static final String bufferSuspicious = "BufferSuspicious.txt";
     private static final String libcAlerts = "LibcAlerts.txt";
@@ -59,9 +54,30 @@ public class ContinuousMonitor {
     public static void update(String inputString, String fileName) {
         try {
             boolean checkFile = false;
+            //writer to write results into a log file
             FileWriter myWriter = new FileWriter("log.txt");
+
+            //creates a list of strings from the file that is input (used for text files)
             List<String> file = new ArrayList<String>(){};
-            List<String> patterns = Files.readAllLines(Paths.get(patternsFile));
+
+            //creates string lists for each of the possible attacks, two for each; one for actual alerts and one for suspicious acitivity
+            //in our case, we are focusing more on the time completed rather than the memory used, since it is on a fairly small scale
+            List<String> bufferAlertList = Files.readAllLines(Paths.get(bufferAlerts));
+            List<String> bufferSuspiciousList = Files.readAllLines(Paths.get(bufferSuspicious));
+            List<String> heapAlertList = Files.readAllLines(Paths.get(heapAlerts));
+            List<String> heapSuspiciousList = Files.readAllLines(Paths.get(heapSuspicious));
+            List<String> libcAlertList = Files.readAllLines(Paths.get(libcAlerts));
+            List<String> libcSuspiciousList = Files.readAllLines(Paths.get(libcSuspicious));
+            List<String> raceAlertList = Files.readAllLines(Paths.get(raceAlerts));
+            List<String> raceSuspiciousList = Files.readAllLines(Paths.get(raceSuspicious));
+            List<String> shellshockAlertList = Files.readAllLines(Paths.get(shellshockAlerts));
+            List<String> shellshockSuspiciousList = Files.readAllLines(Paths.get(shellshockSuspicious));
+            List<String> SQLAlertList = Files.readAllLines(Paths.get(SQLAlerts));
+            List<String> SQLSuspiciousList = Files.readAllLines(Paths.get(SQLSuspicious));
+            List<String> stringFormatAlertList = Files.readAllLines(Paths.get(stringFormatAlerts));
+            List<String> stringFormatSuspiciousList = Files.readAllLines(Paths.get(stringFormatSuspicious));
+            List<String> webAlertList = Files.readAllLines(Paths.get(webAlerts));
+            List<String> webSuspiciousList = Files.readAllLines(Paths.get(webSuspicious));
             
             //chooses to run through try/catch based on input of string vs. file
             if(inputString == null) {
@@ -76,17 +92,80 @@ public class ContinuousMonitor {
             if(checkFile) {
                 // Check for various threat patterns in the file and print messages if detected
                 for (String line : file) {
-                    if (checkAttacks(line, patterns) == 1) {
-                        System.out.println("Suspicious activity detected...");
-                        myWriter.append("****Attack detected on line:\n" + line + "\n");
-                    }
+                    int result = 0;
+                    //check each attack method; int for result
+                    //alert == 1; suspicious == 2;
+
+                    //checks against buffer attacks, and writes to log
+                    result = checkBuffer(line, bufferAlertList, bufferSuspiciousList);
+                    writeAlert(myWriter, result, line);
+
+                    //checks against heap attacks, and writes to log
+                    result = checkHeap(line, heapAlertList, heapSuspiciousList);
+                    writeAlert(myWriter, result, line);
+
+                    //checks against libc attacks, and writes to log
+                    result = checkLibc(line, libcAlertList, libcSuspiciousList);
+                    writeAlert(myWriter, result, line);
+
+                    //checks against race condition attacks, and writes to log
+                    result = checkRaceCondition(line, raceAlertList, raceSuspiciousList);
+                    writeAlert(myWriter, result, line);
+
+                    //checks against SQL attacks, and writes to log
+                    result = checkSQL(line, SQLAlertList, SQLSuspiciousList);
+                    writeAlert(myWriter, result, line);
+
+                    //checks against shellshock attacks, and writes to log
+                    result = checkShellshock(line, shellshockAlertList, shellshockSuspiciousList);
+                    writeAlert(myWriter, result, line);
+
+                    //checks against string format attacks, and writes to log
+                    result = checkStringFormat(line, stringFormatAlertList, stringFormatSuspiciousList);
+                    writeAlert(myWriter, result, line);
+
+                    //checks against web attacks, and writes to log
+                    result = checkWebAttack(line, webAlertList, webSuspiciousList);
+                    writeAlert(myWriter, result, line);
                 }
             } else {
-                // Check for various threat patterns in the patterns file and print messages if detected
-                if (checkAttacks(inputString, patterns) == 1) {
-                    System.out.println("Suspicious activity detected...");
-                }
+                // Check for various threat patterns in the input string and print messages if detected
                 
+                int result = 0;
+                //check each attack method; int for result
+                //alert == 1; suspicious == 2;
+
+                //checks against buffer attacks, and writes to log
+                result = checkBuffer(inputString, bufferAlertList, bufferSuspiciousList);
+                writeAlert(myWriter, result, inputString);
+
+                //checks against heap attacks, and writes to log
+                result = checkHeap(inputString, heapAlertList, heapSuspiciousList);
+                writeAlert(myWriter, result, inputString);
+
+                //checks against libc attacks, and writes to log
+                result = checkLibc(inputString, libcAlertList, libcSuspiciousList);
+                writeAlert(myWriter, result, inputString);
+
+                //checks against race condition attacks, and writes to log
+                result = checkRaceCondition(inputString, raceAlertList, raceSuspiciousList);
+                writeAlert(myWriter, result, inputString);
+
+                //checks against SQL attacks, and writes to log
+                result = checkSQL(inputString, SQLAlertList, SQLSuspiciousList);
+                writeAlert(myWriter, result, inputString);
+
+                //checks against shellshock attacks, and writes to log
+                result = checkShellshock(inputString, shellshockAlertList, shellshockSuspiciousList);
+                writeAlert(myWriter, result, inputString);
+
+                //checks against string format attacks, and writes to log
+                result = checkStringFormat(inputString, stringFormatAlertList, stringFormatSuspiciousList);
+                writeAlert(myWriter, result, inputString);
+
+                //checks against web attacks, and writes to log
+                result = checkWebAttack(inputString, webAlertList, webSuspiciousList);
+                writeAlert(myWriter, result, inputString);
             }
         } catch (IOException e) {
             // Handle any exceptions encountered when reading the files
@@ -94,72 +173,134 @@ public class ContinuousMonitor {
         }
     }
 
-    // Check for buffer overflow attack patterns in the patterns file
-    public static int checkAttacks(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-            
-            return 1; // Attack detected
+    public static void writeAlert(FileWriter myWriter, int result, String line) {
+        try {
+            if (result == 1) {
+            System.out.println("Suspicious activity detected...");
+            myWriter.append("**Possible attack detected on line:\n" + line + "\n");
+            } else if(result == 2) {
+                System.out.println("Suspicious activity detected...");
+                myWriter.append("****Attack detected on line:\n" + line + "\n");
+            } else {
+                System.out.println("Line Clean");
+                myWriter.append("Clean\n");
+            }
+        } catch (Exception e) {
+            System.out.println("Error reading file: " + e.getMessage());
         }
-        return 0; // No attack detected
     }
 
-    /*
-    // Check for libc attack patterns in the patterns file
-    public static int checkLibc(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-            return 1;
+    // Check for buffer overflow attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkBuffer(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
         }
-        return 0;
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
     }
 
-    // Check for string format attack patterns in the patterns file
-    public static int checkStringFormat(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-            return 1;
+    // Check for libc attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkLibc(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
         }
-        return 0;
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
     }
 
-    // Check for heap overflow attack patterns in the patterns file
-    public static int checkHeap(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-            return 1;
+    // Check for string format attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkStringFormat(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
         }
-        return 0;
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
     }
 
-    // Check for Shellshock vulnerability patterns in the patterns file
-    public static int checkShellshock(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-            return 1;
+    // Check for heap overflow attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkHeap(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
         }
-        return 0;
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
     }
 
-    // Check for race condition vulnerability patterns in the patterns file
-    public static int checkRaceCondition(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-            return 1;
+    // Check for Shellshock vulnerability patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkShellshock(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
         }
-        return 0;
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
     }
 
-    // Check for web-based attack patterns in the patterns file
-    public static int checkWebAttack(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-            return 1;
+    // Check for race condition vulnerability patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkRaceCondition(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
         }
-        return 0;
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
     }
 
-    // Check for SQL injection attack patterns in the patterns file
-    public static int checkSQL(String string, List<String> pattern) {
-        if(pattern.contains(string)) {
-             return 1;
+    // Check for web-based attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkWebAttack(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
         }
-        return 0;
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
     }
-    */
+
+    // Check for SQL injection attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
+    public static int checkSQL(String string, List<String> alertStrings, List<String> suspiciousStrings) {
+        int toReturn = 0;
+        if(suspiciousStrings.contains(string)) {
+            toReturn = 2;
+        }
+        if(alertStrings.contains(string)) {
+            toReturn = 1;
+        } else {
+            toReturn = 0;
+        }
+        return toReturn;
+    }
 
     //returns a random int between 0-1 to simulate the user inputting something into a website/application
     //returns 0 for string (i.e. user and pass)
