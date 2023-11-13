@@ -12,8 +12,24 @@ public class ContinuousMonitor {
     // Define the name of the log file as a constant string
     private static final String LOG_FILE = "log.txt";
 
-    // Define the name of the patterns to look for
+    // Define the name of the patterns to look for, for each type of attack, including a suspicious activity file for each
     private static final String patternsFile = "AttackPatterns.txt";
+    private static final String bufferAlerts = "BufferAlerts.txt";
+    private static final String bufferSuspicious = "BufferSuspicious.txt";
+    private static final String libcAlerts = "LibcAlerts.txt";
+    private static final String libcSuspicious = "LibcSuspicious.txt";
+    private static final String heapAlerts = "HeapAlerts.txt";
+    private static final String heapSuspicious = "HeapSuspicious.txt";
+    private static final String raceAlerts = "RaceAlerts.txt";
+    private static final String raceSuspicious = "RaceSuspicious.txt";
+    private static final String shellshockAlerts = "ShellshockAlerts.txt";
+    private static final String shellshockSuspicious = "ShellshockSuspicious.txt";
+    private static final String SQLAlerts = "SQLAlerts.txt";
+    private static final String SQLSuspicious = "SQLSuspicious.txt";
+    private static final String stringFormatAlerts = "StringFormatAlerts.txt";
+    private static final String stringFormatSuspicious = "StringFormatSuspicious.txt";
+    private static final String webAlerts = "WebAlerts.txt";
+    private static final String webSuspicious = "WebSuspicious.txt";
 
     // Entry point for the program
     public static void main(String[] args) throws InterruptedException {
@@ -36,7 +52,6 @@ public class ContinuousMonitor {
                 // Introduce a delay of 5 seconds between each cycle of threat checks
                 Thread.sleep(5000);
             }
-            //scan.close();
         }
     }    
 
@@ -44,6 +59,7 @@ public class ContinuousMonitor {
     public static void update(String inputString, String fileName) {
         try {
             boolean checkFile = false;
+            FileWriter myWriter = new FileWriter("log.txt");
             List<String> file = new ArrayList<String>(){};
             List<String> patterns = Files.readAllLines(Paths.get(patternsFile));
             
@@ -61,10 +77,10 @@ public class ContinuousMonitor {
                 // Check for various threat patterns in the file and print messages if detected
                 for (String line : file) {
                     if (checkAttacks(line, patterns) == 1) {
-                    System.out.println("Suspicious activity detected...");
+                        System.out.println("Suspicious activity detected...");
+                        myWriter.append("****Attack detected on line:\n" + line + "\n");
                     }
                 }
-                
             } else {
                 // Check for various threat patterns in the patterns file and print messages if detected
                 if (checkAttacks(inputString, patterns) == 1) {
@@ -81,6 +97,7 @@ public class ContinuousMonitor {
     // Check for buffer overflow attack patterns in the patterns file
     public static int checkAttacks(String string, List<String> pattern) {
         if(pattern.contains(string)) {
+            
             return 1; // Attack detected
         }
         return 0; // No attack detected
