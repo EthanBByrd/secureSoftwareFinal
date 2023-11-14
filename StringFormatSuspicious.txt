@@ -1,0 +1,7 @@
+0x
+gcc
+sudo
+chmod
+chown
+4755
+root

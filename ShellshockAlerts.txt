@@ -1,0 +1,13 @@
+declare
+export
+bash
+/bin/bash
+setuid
+system
+sudo
+chmod
+chown
+root
+4755
+ifconfig
+/bin/ls

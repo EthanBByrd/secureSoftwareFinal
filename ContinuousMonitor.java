@@ -136,34 +136,42 @@ public class ContinuousMonitor {
                 //alert == 1; suspicious == 2;
 
                 //checks against buffer attacks, and writes to log
+                System.out.println("Checking for buffer attacks...");
                 result = checkBuffer(inputString, bufferAlertList, bufferSuspiciousList);
                 writeAlert(myWriter, result, inputString);
 
                 //checks against heap attacks, and writes to log
+                System.out.println("Checking for heap attacks...");
                 result = checkHeap(inputString, heapAlertList, heapSuspiciousList);
                 writeAlert(myWriter, result, inputString);
 
                 //checks against libc attacks, and writes to log
+                System.out.println("Checking for libc attacks...");
                 result = checkLibc(inputString, libcAlertList, libcSuspiciousList);
                 writeAlert(myWriter, result, inputString);
 
                 //checks against race condition attacks, and writes to log
+                System.out.println("Checking for race condition attacks...");
                 result = checkRaceCondition(inputString, raceAlertList, raceSuspiciousList);
                 writeAlert(myWriter, result, inputString);
 
                 //checks against SQL attacks, and writes to log
+                System.out.println("Checking for SQL attacks...");
                 result = checkSQL(inputString, SQLAlertList, SQLSuspiciousList);
                 writeAlert(myWriter, result, inputString);
 
                 //checks against shellshock attacks, and writes to log
+                System.out.println("Checking for shellshock attacks...");
                 result = checkShellshock(inputString, shellshockAlertList, shellshockSuspiciousList);
                 writeAlert(myWriter, result, inputString);
 
                 //checks against string format attacks, and writes to log
+                System.out.println("Checking for string format attacks...");
                 result = checkStringFormat(inputString, stringFormatAlertList, stringFormatSuspiciousList);
                 writeAlert(myWriter, result, inputString);
 
                 //checks against web attacks, and writes to log
+                System.out.println("Checking for web attacks...");
                 result = checkWebAttack(inputString, webAlertList, webSuspiciousList);
                 writeAlert(myWriter, result, inputString);
             }

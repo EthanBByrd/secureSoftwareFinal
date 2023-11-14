@@ -1,0 +1,11 @@
+get
+post
+input
+value
+<
+>
+echo
+'
+"
+cookie
+&

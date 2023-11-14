@@ -13,7 +13,11 @@ vfork
 ptrace
 kill
 mknod
-symlinks
+symlink
 sysctl
 kernel
 fs.protected
+root
+scanf
+/bin/bash
+unlink

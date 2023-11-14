@@ -1,0 +1,16 @@
+sudo
+chown
+chmod
+stack-protector
+noexecstack
+sysctl
+kernel
+randomize_va_space
+/bin/sh
+%ebp
+%esp
+pushl
+movl
+subl
+gcc
+gdb
