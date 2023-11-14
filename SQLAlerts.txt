@@ -1,0 +1,12 @@
+mysql
+uroot
+create
+insert
+select
+where
+1=1
+update
+ or 
+$conn
+query
+union
