@@ -193,13 +193,15 @@ public class ContinuousMonitor {
     // Check for buffer overflow attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkBuffer(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }
@@ -207,13 +209,15 @@ public class ContinuousMonitor {
     // Check for libc attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkLibc(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }
@@ -221,13 +225,15 @@ public class ContinuousMonitor {
     // Check for string format attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkStringFormat(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }
@@ -235,13 +241,15 @@ public class ContinuousMonitor {
     // Check for heap overflow attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkHeap(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }
@@ -249,13 +257,15 @@ public class ContinuousMonitor {
     // Check for Shellshock vulnerability patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkShellshock(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }
@@ -263,13 +273,15 @@ public class ContinuousMonitor {
     // Check for race condition vulnerability patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkRaceCondition(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }
@@ -277,13 +289,15 @@ public class ContinuousMonitor {
     // Check for web-based attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkWebAttack(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }
@@ -291,13 +305,15 @@ public class ContinuousMonitor {
     // Check for SQL injection attack patterns in the patterns file; returns 2 for suspicious activity, 1 for attack alert, and 0 for clean
     public static int checkSQL(String string, List<String> alertStrings, List<String> suspiciousStrings) {
         int toReturn = 0;
-        if(suspiciousStrings.contains(string)) {
-            toReturn = 2;
+        for (String line : suspiciousStrings) {
+            if(string.contains(line)) {
+                toReturn = 2;
+            }
         }
-        if(alertStrings.contains(string)) {
-            toReturn = 1;
-        } else {
-            toReturn = 0;
+        for (String line : alertStrings) {
+            if(string.contains(line)) {
+                toReturn = 1;
+            }
         }
         return toReturn;
     }

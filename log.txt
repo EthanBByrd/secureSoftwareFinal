@@ -1,9 +1,0 @@
-2023-10-25 08:00:00 - User login successful - IP: 192.168.1.5
-2023-10-25 08:05:10 - User requested resource /dashboard
-2023-10-25 08:15:23 - BUFFER_ATTACK_PATTERN: Suspicious buffer overflow attempt
-2023-10-25 08:30:44 - User uploaded file data.csv
-2023-10-25 08:45:10 - WEB_ATTACK_PATTERN: Detected cross-site scripting attempt
-2023-10-25 09:00:00 - SHELLSHOCK_ATTACK_PATTERN: Detected possible Shellshock exploit
-2023-10-25 09:15:15 - User requested resource /profile
-2023-10-25 09:30:30 - SQL_INJECTION_PATTERN: Suspicious SQL query pattern detected
-2023-10-25 09:45:45 - User logout successful - IP: 192.168.1.5
