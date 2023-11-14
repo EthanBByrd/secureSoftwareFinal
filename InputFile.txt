@@ -1,0 +1,13 @@
+Testing Testing.
+This is a test file
+nothing suspicious here!
+%s%s%s
+prank!
+%x
+free falling!
+sudo
+chmod
+stuff and things
+sudo chmod root fileHere
+nothing on this line haha
+not a thing!
